@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tulun.dao.ArticleMapper">
+    <resultMap id="articleMap" type="com.tulun.model.Article">
+        <result column="id" property="id"></result>
+        <result column="categoryId" property="categoryId"></result>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="description" property="description"></result>
+        <result column="status" property="status"></result>
+        <result column="author" property="author"></result>
+        <result column="createTime" property="createTime"></result>
+        <result column="categoryName" property="categoryName"></result>
+        <result column="showCount" property="showCount"></result>
+        <result column="content" property="content" typeHandler="com.tulun.util.ConvertBlobTypeHandler"></result>
+    </resultMap>
+
+    <insert id="addArticle" parameterType="com.tulun.model.Article">
+        insert into t_article (categoryId,title,content,description,status,author,createTime)
+        values (#{categoryId},#{title},#{content},#{description},#{status},#{author},#{createTime})
+    </insert>
+
+    <select id="getArticleById" parameterType="int" resultMap="articleMap">
+        select a.*,c.categoryName categoryName from t_article a, t_category c where a.categoryId = c.id and a.id = #{id}
+    </select>
+
+    <select id="getAllArticle" resultMap="articleMap">
+        select a.*,c.categoryName categoryName from t_article a, t_category c where a.categoryId = c.id order by a.createTime desc
+    </select>
+
+    <select id="getAllArticleByCategoryId" resultMap="articleMap">
+        select a.*,c.categoryName categoryName from t_article a, t_category c where a.categoryId = c.id and a.categoryId = #{categoryId} order by a.createTime desc
+    </select>
+
+    <!--mybatis中的动态sql-->
+    <select id="selectCountByArticle" parameterType="map" resultType="int">
+        select count(*)
+        from t_article ta
+        join t_category tc
+        on  ta.categoryId = tc.id
+        <where>
+            <if test="article.title != null">
+                and ta.title like concat('%', #{article.title}, '%')
+            </if>
+            <if test="article.categoryId != null and article.categoryId != 0">
+                and ta.categoryId = #{article.categoryId}
+            </if>
+            <if test="article.tagId != null and article.tagId != 0">
+                and exists (select 1 from t_article_tag tt where tt.articleId = ta.id and tt.tagId = #{article.tagId})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectArticleByPager" parameterType="map" resultMap="articleMap">
+        select ta.id,ta.categoryId,tc.categoryName,ta.title,ta.content,ta.author,ta.createTime,DATE_FORMAT(ta.createTime,'%Y-%m-%d %H:%i:%s') as time,
+        ta.showCount,ta.status
+        from t_article ta
+        join t_category tc
+        on  ta.categoryId = tc.id
+        <where>
+            <if test="article.title != null">
+                and ta.title like concat('%', #{article.title}, '%')
+            </if>
+            <if test="article.categoryId != null and article.categoryId != 0">
+                and ta.categoryId = #{article.categoryId}
+            </if>
+            <if test="article.tagId != null and article.tagId != 0">
+                and exists (select 1 from t_article_tag tt where tt.articleId = ta.id and tt.tagId = #{article.tagId})
+            </if>
+
+        </where>
+
+        order by ta.createTime desc
+        limit #{start},#{limit}
+
+    </select>
+
+    <update id="updateStatus" parameterType="com.tulun.model.Article">
+        update t_article set status =#{status} where  id = #{id}
+    </update>
+</mapper>

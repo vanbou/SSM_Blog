@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/tulun/controller/TestController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/tulun/model/Result.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/tulun/util/JsonUtil.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/tulun/util/Pager.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jsp/ueditor_detail.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/font-awesome" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js" charset="UTF-8" />
+  </component>
+</project>
